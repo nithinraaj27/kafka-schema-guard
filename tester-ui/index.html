@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Guard | Ultra-Modern Tester</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header__left">
+            <div class="header__icon-wrapper">
+                <span class="header__icon">🛡️</span>
+            </div>
+            <div class="header__titles">
+                <h1>Schema Guard</h1>
+                <p>Shift-Left Data Integrity</p>
+            </div>
+        </div>
+        <div class="header__right">
+            <button id="btn-integrate" class="btn btn--outline">
+                <span class="icon">🔌</span> Integration Guide
+            </button>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="icon icon--sun">☀️</span>
+                <span class="icon icon--moon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="tester-grid">
+        <section class="editor-panel glass-panel">
+            <div class="editor-header">
+                <div class="editor-header__title">
+                    <span class="dot"></span>
+                    <h2>JSON Schema Definition</h2>
+                </div>
+                <span class="badge badge--primary">your-schema-v1</span>
+            </div>
+            <textarea id="schema-input" class="code-editor" spellcheck="false">{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "transactionId": { "type": "string", "format": "uuid" },
+    "amount": { "type": "number", "minimum": 0 },
+    "currency": { "type": "string", "minLength": 3, "maxLength": 3 }
+  },
+  "required": ["transactionId", "amount", "currency"]
+}</textarea>
+        </section>
+
+        <section class="editor-panel glass-panel">
+            <div class="editor-header">
+                <div class="editor-header__title">
+                    <span class="dot dot--warning"></span>
+                    <h2>Producer Payload</h2>
+                </div>
+                <span class="badge badge--warning">Topic: testing-events</span>
+            </div>
+            <textarea id="payload-input" class="code-editor" spellcheck="false">{
+  "transactionId": "123e4567-e89b-12d3-a456-426614174000",
+  "amount": 150.50
+  // "currency" is missing!
+}</textarea>
+        </section>
+    </main>
+
+    <div class="controls">
+        <button id="validate-btn" class="btn btn--primary btn--large pulse-anim">
+            <span class="btn__icon">🚀</span> Simulate Publish to Kafka
+        </button>
+    </div>
+
+    <div id="result-console" class="result-console glass-panel">
+        <div class="result-console__header">
+            <span>Terminal Output</span>
+            <span class="status-indicator"></span>
+        </div>
+        <div id="result-output" class="result-console__content">Waiting for event dispatch...</div>
+    </div>
+
+    <!-- Integration Modal -->
+    <div id="integration-modal" class="modal-overlay hidden">
+        <div class="modal glass-panel">
+            <div class="modal__header">
+                <h2>🔌 How to Integrate Schema Guard</h2>
+                <button id="close-modal" class="btn-close">&times;</button>
+            </div>
+            <div class="modal__content">
+                <h3>What is Schema Guard?</h3>
+                <p>Schema Guard uses Spring Kafka's `ProducerPostProcessor` to intercept your messages <strong>before</strong> they reach the Kafka broker. If a payload doesn't strictly match the remote JSON schema, it throws a `SchemaValidationException` instantly, preventing Poison Pills from ever entering your data streams.</p>
+                
+                <div class="integration-step">
+                    <h4>1. Add Maven Dependency</h4>
+                    <pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.schemaguard&lt;/groupId&gt;
+    &lt;artifactId&gt;schema-guard-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+                </div>
+
+                <div class="integration-step">
+                    <h4>2. Add to application.properties</h4>
+                    <pre><code>schema-guard.enabled=true
+schema-guard.registry-url=http://your-registry-api.com/schemas
+
+# Map your Kafka topics to their respective schema IDs
+schema-guard.topics.testing-events=your-schema-v1
+schema-guard.topics.ledger-events=ledger-schema-v1</code></pre>
+                </div>
+
+                <p class="modal__footer-text">That's it! Zero code changes required in your Spring Boot application. It works entirely via Auto-Configuration.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

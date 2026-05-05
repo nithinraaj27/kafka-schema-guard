@@ -1,0 +1,14 @@
+# Java
+target/
+*.class
+*.jar
+
+# Node
+node_modules/
+dist/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.iml

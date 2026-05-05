@@ -1,0 +1,21 @@
+{
+  "name": "schema-guard-live-tester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "ajv-formats": "^3.0.1"
+  }
+}
