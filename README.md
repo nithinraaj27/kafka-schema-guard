@@ -26,8 +26,34 @@ Add the following dependency to your `pom.xml`:
 <dependency>
     <groupId>com.schemaguard</groupId>
     <artifactId>schema-guard-spring-boot-starter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
+```
+
+### GitHub Packages Repository (Required)
+This artifact is published to GitHub Packages (not Maven Central). Add the GitHub Packages Maven repository:
+
+```xml
+<repositories>
+  <repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/nithinraaj27/kafka-schema-guard</url>
+  </repository>
+</repositories>
+```
+
+Then authenticate Maven by adding this to `~/.m2/settings.xml` (a GitHub token is required; scope `read:packages`):
+
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>YOUR_GITHUB_USERNAME</username>
+      <password>YOUR_GITHUB_TOKEN</password>
+    </server>
+  </servers>
+</settings>
 ```
 
 ---
@@ -76,6 +102,17 @@ The project includes a robust test suite using **EmbeddedKafka** and **WireMock*
 
 ```bash
 mvn test
+```
+
+### Publishing to GitHub Packages (Maintainers)
+To publish a new version:
+
+1. Create a GitHub token with `write:packages` + `read:packages`.
+2. Export the token and deploy:
+
+```bash
+export GITHUB_TOKEN="YOUR_GITHUB_TOKEN"
+mvn -DskipTests deploy
 ```
 
 ### Expressive Errors
