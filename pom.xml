@@ -12,9 +12,17 @@
 
     <groupId>com.schemaguard</groupId>
     <artifactId>schema-guard-spring-boot-starter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>schema-guard-spring-boot-starter</name>
     <description>Starter for strictly validating Kafka payloads against JSON Schemas (Shift-Left Data Integrity)</description>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/nithinraaj27/kafka-schema-guard</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <java.version>17</java.version>
